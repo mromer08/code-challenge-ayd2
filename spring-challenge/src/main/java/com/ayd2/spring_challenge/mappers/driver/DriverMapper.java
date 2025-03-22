@@ -16,10 +16,10 @@ public interface DriverMapper {
 
     DriverResponseDTO driverToDriverResponseDTO(Driver driver);
     
-    @Mapping(target = "id", ignore = true) // Se ignora el id al crear un nuevo Driver
+    @Mapping(target = "id", ignore = true)
     Driver newDriverRequestDTOToDriver(NewDriverRequestDTO dto);
 
-    @Mapping(target = "id", ignore = true) // Se ignora el id en la actualización
+    @Mapping(target = "id", ignore = true)
     void updateDriverFromDTO(UpdateDriverRequestDTO dto, @MappingTarget Driver driver);
 
 }

@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -14,6 +15,9 @@ import com.ayd2.spring_challenge.exceptions.NotFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    // ver de agregar el status que devuele
+    // @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    // investigar AOP aspect oriented programming
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnhandledException(Exception e) {
         ProblemDetail problemDetail =
@@ -24,6 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    // este deberia retornar un BAD_REQUEST
     @ExceptionHandler(DuplicatedEntityException.class)
     ProblemDetail handleDuplicatedEntityException(DuplicatedEntityException e) {
         ProblemDetail problemDetail =

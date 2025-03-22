@@ -3,6 +3,10 @@ package com.ayd2.spring_challenge.service;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ayd2.spring_challenge.dto.drivers.DriverResponseDTO;
 import com.ayd2.spring_challenge.dto.drivers.NewDriverRequestDTO;
 import com.ayd2.spring_challenge.dto.drivers.UpdateDriverRequestDTO;
+import com.ayd2.spring_challenge.exceptions.DuplicatedEntityException;
 import com.ayd2.spring_challenge.mappers.driver.DriverMapper;
 import com.ayd2.spring_challenge.models.driver.Driver;
 import com.ayd2.spring_challenge.repositories.driver.DriverRepository;
@@ -31,6 +36,8 @@ public class DriverServiceImplTest {
     private static final Long DRIVER2_ID = 2L;
     private static final String DRIVER2_NAME = "Bob";
     private static final int DRIVER2_AGE = 35;
+
+    public static final String EXCEPTION_MESSAGE = "ERROR";
 
     @Mock
     DriverRepository driverRepository;
@@ -83,6 +90,21 @@ public class DriverServiceImplTest {
             () -> assertEquals(DRIVER_NAME, result.name()),
             () -> assertEquals(DRIVER_AGE, result.age())
         );
+    }
+
+    @Test
+    void testCreateDriverWhenNameDuplicated() throws Exception {
+        NewDriverRequestDTO dto = new NewDriverRequestDTO(DRIVER2_NAME, DRIVER2_AGE);
+
+        when(driverRepository.existsByName(DRIVER2_NAME)).thenReturn(true);
+
+        DuplicatedEntityException ex = assertThrows(DuplicatedEntityException.class, () -> serviceToTest.create(dto));
+        // No hace falta comparar el mensaje del error
+        // OPCIONAL
+        // assertEquals(EXCEPTION_MESSAGE, ex.getMessage());
+        
+        // Verificar que nunca se ejecute el metodo save
+        verify(driverRepository, times(0)).save(any(Driver.class));
     }
 
 }

@@ -46,6 +46,13 @@ public class DriverServiceImpl implements DriverService {
                 .collect(Collectors.toList());
     }
 
+    // tiene que ser del tipo cheked, cambiar para que lanze el error
+    // el controller se encarga de mapear o el servidor se encarga de mapear?
+    // Manejar un estandar interno. O enviar siempre el dto o enviar siempre el Entity
+    // Tratar de que no este mezclado
+    
+    // Segun el inge, el controller deberia de encargarse de mapear, mientras
+    // que el servicio deberia devolver siempre las entities
     @Override
     public DriverResponseDTO findById(Long id) {
         Driver driver = driverRepository.findById(id)

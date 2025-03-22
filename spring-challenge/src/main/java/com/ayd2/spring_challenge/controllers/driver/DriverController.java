@@ -13,6 +13,10 @@ import com.ayd2.spring_challenge.services.drivers.DriverService;
 
 @RestController
 @RequestMapping("/drivers")
+
+// propagar las excepciones incluso en los controllaers.
+// el Not Found y el Duplicated Entity heredan de ServerException. Por lo que luego
+// en el controller es mas facil propagar las excepciones heredadas.
 public class DriverController {
 
     private final DriverService driverService;
