@@ -1,6 +1,6 @@
 # Solucion
 ## Diagrama de clases
-[image](./assets/patterns-excersice.png)
+![clases](./assets/patterns-excersice.png)
 ## **Patrones propuestos para la solucion**
 
 ---
